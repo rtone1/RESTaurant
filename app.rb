@@ -9,12 +9,17 @@ ActiveRecord::Base.establish_connection(
 )
 
 #get models
+require './models/manager'
 require './models/user'
 require './models/partie'
 require './models/order'
 require './models/food'
+require './models/recipt'
 
 #make helpers
+
+
+
 
 # GET	/	Displays the waitstaff's application
 get '/' do
@@ -32,7 +37,7 @@ end
 get '/api/foods/:id' do
   content_type :json
   food = Food.find(params[:id].to_i)
-  food.parties.to_json
+  food.to_json
 end
 # POST	/api/foods	Creates a new food item
 post '/api/foods' do
@@ -72,7 +77,7 @@ end
 get '/api/parties/:id' do
   content_type :json
   partie = Partie.find(params[:id].to_i)
-  partie.orders.to_json
+  partie.to_json
 end
 # POST	/api/parties	Creates a new party
 post '/api/parties' do
@@ -103,9 +108,16 @@ end
 #===============================================================================
 #set routes for orders
 # POST	/api/orders	Creates a new order
+get '/api/orders' do
+  content_type :json
+  order = Order.all
+  order.to_json(:include => [:partie, :food])
+end
+# POST	/api/orders	Creates a new order
 post '/api/orders' do
   content_type :json
   order = Order.create(params[:order])
+  order.to_json(:include => [:partie, :food])
 end
 # PATCH	/api/orders/:id	Change item to no-charge
 patch '/api/orders/:id' do
@@ -120,19 +132,29 @@ delete '/api/orders/:id' do
   Order.delete(params[:id].to_i)
   {message: 'Successfuly Deleted'}.to_json
 end
+#===============================================================================
+#set routes for checkout
 # GET	/api/parties/:id/receipt	Saves the party's receipt data to a file.
 get '/api/parties/:id/receipt' do
   content_type :json
   partie = Partie.find(params[:id].to_i)
-
+  orders = Order.all
+  receipt = partie.orders
+  receipt.to_json(:include => [:food])
 end
 # PATCH	/api/parties/:id/ checkout	Marks the party as paid
-get '/api/parties/:id/checkout' do
+patch '/api/parties/:id/checkout' do
   content_type :json
   partie = Partie.find(params[:id].to_i)
+  partie.payment = true
+  partie.save!
+  partie.to_json
 end
 # PUT	/api/parties/:id/ checkout
 put '/api/parties/:id/checkout' do
   content_type :json
   partie = Partie.find(params[:id].to_i)
+  partie.payment = true
+  partie.save!
+  partie.to_json
 end
