@@ -8,7 +8,10 @@ ActiveRecord::Base.establish_connection(
   :database => 'restaurant'
 )
 
-#get models
+# sessions
+enable(:sessions)
+
+# get models
 require './models/manager'
 require './models/user'
 require './models/partie'
@@ -16,52 +19,87 @@ require './models/order'
 require './models/food'
 require './models/recipt'
 
-#make helpers
+# make helpers
+# make certain featers only for managers
+def current_user
+  if session[:current_user]
+    User.find(session[:current_user])
+  else
+    nil
+  end
+end
 
+def authenticate!
+  redirect '/sign_up' unless current_user
+end
 
 
 
 # GET	/	Displays the waitstaff's application
 get '/' do
-  erb :log_in
+    if current_user
+      erb :POSmain
+    else
+      erb :log_in
+    end
 end
 
 get '/sign_up' do
   erb :sign_up
 end
+
+
 #===============================================================================
-#set routes for managers
-#Get /api/managers All the managers
-get '/api/managers' do
-  content_type :json
-  man = Manager.all
-  man.to_json
-end
-#Get /api/managers/:id  A single manager
-get '/api/managers/:id' do
-  content_type :json
-  man = Manager.find(params[:id].to_i)
-  man.to_json
-end
-#Post /api/managers  Make a manager
-post '/api/managers' do
-  content_type :json
-  man = Manager.create(params[:manager])
-  man.to_json
-end
-#Patch /api/managers/:id  Update a manager
-patch '/api/managers/:id' do
-  content_type :json
-  man = Manager.find(params[:id].to_i)
-  man.update(params[:manager])
-  man.to_json
-end
-#Delete /api/managers/:id Delete a manager
-delete '/api/managers/:id' do
-  content_type :json
-  Manager.find(params[:id].to_i)
-  {message: 'Successfully Deleted'}.to_json
-end
+# #set routes for managers
+# #Get /api/managers All the managers
+# get '/api/managers' do
+#   content_type :json
+#   man = Manager.all
+#   man.to_json
+# end
+# #Get /api/managers/:id  A single manager
+# get '/api/managers/:id' do
+#   content_type :json
+#   man = Manager.find(params[:id].to_i)
+#   man.to_json
+# end
+# #Post /api/managers  Make a manager
+# post '/managers' do
+#   content_type :json
+#   man = Manager.new(params[:manager])
+#   man.password = params[:password]
+#   man.save!
+#   man.to_json
+#   redirect '/'
+# end
+#
+# post '/sessions' do
+#   man = Manager.find_by(name: params[:name])
+#   if (man.password == params[:password])  # Does the password match?
+#     session[:current_user] = user.id
+#     redirect '/' # Authenticated
+#   else
+#     redirect '/' # Not Authenticated
+#   end
+# end
+# #Patch /api/managers/:id  Update a manager
+# patch '/api/managers/:id' do
+#   content_type :json
+#   man = Manager.find(params[:id].to_i)
+#   man.update(params[:manager])
+#   man.to_json
+# end
+# #Delete /api/managers/:id Delete a manager
+# delete '/api/managers/:id' do
+#   content_type :json
+#   Manager.find(params[:id].to_i)
+#   {message: 'Successfully Deleted'}.to_json
+# end
+#
+# delete '/sessions' do
+#   session[:current_user] = nil
+#   redirect '/'
+# end
 #===============================================================================
 #set routes for users
 #Get /api/users All the user
@@ -77,10 +115,23 @@ get '/api/users/:id' do
   user.to_json
 end
 #Post /api/users  Make a user
-post '/api/users' do
+post '/users' do
   content_type :json
-  user = User.create(params[:user])
-  user.to_json
+  user = User.new(params[:user])
+  user.password = params[:password]
+  user.save!
+  redirect '/'
+end
+
+post '/sessions' do
+  user = User.find_by(username: params[:username])
+  if (user.password == params[:password])  # Does the password match?
+    session[:current_user] = user.id
+    redirect '/' # Authenticated
+  else
+    redirect '/' # Not Authenticated
+  end
+
 end
 #Patch /api/users/:id  Update a user
 patch '/api/users/:id' do
@@ -94,6 +145,11 @@ delete '/api/users/:id' do
   content_type :json
   User.find(params[:id].to_i)
   {message: 'Successfully Deleted'}.to_json
+end
+
+delete '/sessions' do
+  session[:current_user] = nil
+  redirect '/'
 end
 #===============================================================================
 #set routes for foods

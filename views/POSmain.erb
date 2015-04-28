@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>POS SYSTEM</title>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+  </head>
+  <body>
+
+<header>
+  <h1>Restaurant POS System</h1>
+</header>
+
+<section id="rest-pos">
+
+    <div class="food-section">
+
+    </div>
+    <div class="parties">
+
+    </div>
+
+    <form action="/sessions" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <!-- <input type="submit" value="Log-Out"> -->
+      <button class="logout" type="submit" value='Log-Out'>Log-Out</button>
+    </form>
+</section>
+
+<script type='text/template' id='food-template'>
+    <button class="foods"><p><strong><%%= name %></strong><br> <b>Allergies: </b> <%%= allergiens %> <br> $<%%= price %></p></button>
+  </script>
+  <script type='text/template' id='user-template'>
+    <h3><%%= name %></h3>
+  </script>
+
+<script charset="utf-8" src='/javascripts/lib/jquery.js'></script>
+<script charset="utf-8" src='/javascripts/lib/underscore.js'></script>
+<script charset="utf-8" src='/javascripts/lib/backbone.js'></script>
+<script charset="utf-8" src='/javascripts/app.js'></script>
+<script charset="utf-8" src='/javascripts/user.js'></script>
+  </body>
+</html>
