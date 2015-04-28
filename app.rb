@@ -23,7 +23,77 @@ require './models/recipt'
 
 # GET	/	Displays the waitstaff's application
 get '/' do
-  erb :index
+  erb :log_in
+end
+
+get '/sign_up' do
+  erb :sign_up
+end
+#===============================================================================
+#set routes for managers
+#Get /api/managers All the managers
+get '/api/managers' do
+  content_type :json
+  man = Manager.all
+  man.to_json
+end
+#Get /api/managers/:id  A single manager
+get '/api/managers/:id' do
+  content_type :json
+  man = Manager.find(params[:id].to_i)
+  man.to_json
+end
+#Post /api/managers  Make a manager
+post '/api/managers' do
+  content_type :json
+  man = Manager.create(params[:manager])
+  man.to_json
+end
+#Patch /api/managers/:id  Update a manager
+patch '/api/managers/:id' do
+  content_type :json
+  man = Manager.find(params[:id].to_i)
+  man.update(params[:manager])
+  man.to_json
+end
+#Delete /api/managers/:id Delete a manager
+delete '/api/managers/:id' do
+  content_type :json
+  Manager.find(params[:id].to_i)
+  {message: 'Successfully Deleted'}.to_json
+end
+#===============================================================================
+#set routes for users
+#Get /api/users All the user
+get '/api/users' do
+  content_type :json
+  user = User.all
+  user.to_json
+end
+#Get /api/users/:id  A single user
+get '/api/users/:id' do
+  content_type :json
+  user = User.find(params[:id].to_i)
+  user.to_json
+end
+#Post /api/users  Make a user
+post '/api/users' do
+  content_type :json
+  user = User.create(params[:user])
+  user.to_json
+end
+#Patch /api/users/:id  Update a user
+patch '/api/users/:id' do
+  content_type :json
+  user = User.find(params[:id].to_i)
+  user.update(params[:user])
+  user.to_json
+end
+#Delete /api/users/:id Delete a user
+delete '/api/users/:id' do
+  content_type :json
+  User.find(params[:id].to_i)
+  {message: 'Successfully Deleted'}.to_json
 end
 #===============================================================================
 #set routes for foods
@@ -103,7 +173,7 @@ end
 delete '/api/parties/:id' do
   content_type :json
   Partie.delete(params[:id].to_i)
-  {message: 'Successfuly Deleted'}.to_json
+  {message: 'Successfully Deleted'}.to_json
 end
 #===============================================================================
 #set routes for orders
@@ -130,7 +200,7 @@ end
 delete '/api/orders/:id' do
   content_type :json
   Order.delete(params[:id].to_i)
-  {message: 'Successfuly Deleted'}.to_json
+  {message: 'Successfully Deleted'}.to_json
 end
 #===============================================================================
 #set routes for checkout

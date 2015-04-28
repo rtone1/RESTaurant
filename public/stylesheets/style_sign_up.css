@@ -24,14 +24,7 @@ section h2, h3{
   font-size: 28px;
   line-height: 10px;
 }
-section a{
-  float: left;
-  position: relative;
-  left: 20px;
-  font-size: 18px;
-  font-family: Arial;
-  color: white;
-}
+
 form{
   width: 60%;
   margin: 0px auto;
