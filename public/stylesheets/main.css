@@ -12,6 +12,9 @@ header{
 section form{
   display: inline-block;
   float: right;
+  position: relative;
+  top: -25px;
+  clear: both;
 }
 section .logout{
   height: 30px;
@@ -35,7 +38,7 @@ section{
   width: 90%;
   height: 600px;
   border-radius: 10px;
-  margin: 25px auto 0px;
+  margin: 15px auto 0px;
   box-shadow: 0px 0px 6px 2px black;
   background-color: white;
 }
@@ -44,15 +47,48 @@ section{
   height: 75px;
   border-bottom: solid 2px gray;
 }
+.food-section div{
+  display: inline;
+}
 .food-section p{
   display: inline-block;
   font-size: 12px;
 }
-.foods{
+.foods, .party{
   border-radius: 20px;
+  margin-right: -25px;
 }
-.parties{
+.delete{
+  background-color: red;
+  position: relative;
+  right: 5px;
+  top: 10px;
+}
+.parties-section{
   width: 100px;
   height: 518px;
   border-right: solid 2px gray;
+  float: left;
+  display: inline-block;
+}
+.heading{
+  position: relative;
+  left: 25px;
+}
+.make-food{
+  margin-top: 10px;
+  margin-left: 100px;
+}
+.party{
+  width: 100px;
+}
+.orders{
+  width: 300px;
+  height: 520px;
+  border-right: solid 2px gray;
+  float: left;
+  background-color: rgba(214, 214, 214, .5);
+}
+h3{
+  margin: 0px 0px 0px 140px;
 }

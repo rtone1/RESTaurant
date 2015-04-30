@@ -20,6 +20,7 @@ require './models/food'
 require './models/recipt'
 
 # make helpers
+
 # make certain featers only for managers
 def current_user
   if session[:current_user]
@@ -170,6 +171,7 @@ post '/api/foods' do
   content_type :json
   food = Food.create(params[:food])
   food.to_json
+  redirect '/'
 end
 # PATCH	/api/foods/:id	Updates a food item
 patch '/api/foods/:id' do
