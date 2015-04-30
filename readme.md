@@ -1,1 +1,4 @@
-<h1>RESTAURANT POS SYSTEM APP</h1>
+###RESTaurant:
+- A restaurant POS system for taking your orders...
+
+![Screen Shot](/screenshot.png)

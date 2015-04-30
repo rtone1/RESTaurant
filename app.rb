@@ -199,7 +199,7 @@ end
 get '/api/parties' do
   content_type :json
   partie = Partie.all
-  partie.to_json
+  partie.to_json(:include => [:foods])
 end
 # GET	/api/parties/:id	A single party and all the orders it contains
 get '/api/parties/:id' do

@@ -46,6 +46,7 @@ app.FoodListView = Backbone.View.extend({
     this.listenTo(this.collection, "sync", this.render);//***magical method that listen to add,change,save,create,delete***
   },
   render: function(){
+    this.$el.empty();
     //console.log('collection is being rendered');
     var modelCount = this.collection.models.length; // grabing every single model
     for (var i = 0; i < modelCount; i++) {
@@ -56,9 +57,6 @@ app.FoodListView = Backbone.View.extend({
     }
   }
 });
-
-
-
 
 //=================== Parties MVC ==============================================
 //model!
@@ -80,21 +78,23 @@ app.PartyView = Backbone.View.extend({
   selectParty: function(){
     app.partySelection = this.model;
     console.log(app.partySelection);
+    if (this.model.get("foods")) {
+      var foods = this.model.get('foods');
+      var foodList = $('<ul>');
+      for (var i = 0; i < foods.length; i++){
+        foodList.append($('<li>').text(foods[i]['name']));
+      };
+      $('.orders').html(foodList);
+    }
   },
   render: function(){
-    //console.log('rendering new party view');
-    var data = this.model.attributes; //special place where info is held
+    this.$el.empty();
+    var data = this.model.attributes;
     var html = this.template(data);
-    this.$el.html(html); //method inside of method
+    this.$el.html(html);
     $(".parties-section").append(this.$el);
-  },
-  renderFoodList: function(){
-    var foods = this.model.get('foods');
-    console.log(foods);
-    var foodList = $('<ul>');
-    for (var i = 0; i < foods.length: i++){
-      foodList.append($('<li>').text(foods[i]['name']['price']));
-    };
+    // this.renderFoodList();
+    return this;
   }
 });
 //collection!////
@@ -109,6 +109,7 @@ app.PartyListView = Backbone.View.extend({
     this.listenTo(this.collection, "sync", this.render);//***magical method that listen to add,change,save,create,delete***
   },
   render: function(){
+    this.$el.empty();
     //console.log('collection is being rendered');
     var modelCount = this.collection.models.length; // grabing every single model
     for (var i = 0; i < modelCount; i++) {
@@ -119,6 +120,7 @@ app.PartyListView = Backbone.View.extend({
     }
   }
 });
+
 //=================== Document ready ===========================================
 $(document).ready(function(){
   //new instances of foods
@@ -130,12 +132,30 @@ $(document).ready(function(){
   //new instances of parties
   app.partyList = new app.PartyList();
   app.partyListView = new app.PartyListView({
-    collection: app.partyList
+    collection: app.partyList,
+    el: $('.parties-section')
   });
   app.partyList.fetch();
 
 
 
+  $('#place-order').on('click', function(){
+
+    var partyId = app.partySelection.get('id');
+    var foodId = app.foodSelection.get('id');
+
+    $.ajax({
+      method: 'post',
+      url: '/api/orders',
+      data: {order: {partie_id: partyId, food_id: foodId} },
+      success: function(data){
+        var options = data;
+        // console.log(data);
+        app.partyList.fetch( {reset: true} ); // Reset the party list... update all data
+      }
+    });
+
+  });//end of click event
 //============= jquery style functions ==========================================
 
   // $('div').click(function(){
