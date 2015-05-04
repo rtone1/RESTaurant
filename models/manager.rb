@@ -1,7 +1,7 @@
 class Manager < ActiveRecord::Base
+  
   include BCrypt
 
-  #relationships
     has_many(:parties)
     has_many(:users)
 

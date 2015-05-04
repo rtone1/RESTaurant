@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
+
   include BCrypt
-  
-  #relationships
+
   has_many(:parties)
 
   def password
@@ -15,4 +15,5 @@ class User < ActiveRecord::Base
   def to_s
     "I'm a user"
   end
+  
 end

@@ -9,7 +9,7 @@
   <h1>Restaurant POS System</h1>
 </header>
 
-<!-- post food from -->
+
 <form class="make-food" action="/api/foods" method="post">
     <input class="food-form" type="text" name="food[meal_type]" placeholder=" meal type">
     <input class="food-form" type="text" name="food[name]" placeholder=" name">
@@ -18,38 +18,44 @@
     <input class="food-submit"type="submit">
 </form>
 
-<!-- render section -->
+
 <section id="rest-pos">
     <div class="food-section">
     </div>
+
     <div class="parties-section">
       <b class="heading">tables</b>
     </div>
-    <div >
+
+    <div>
       <h3>order</h3>
       <button id='place-order'>
           Order
       </button>
       <div class="orders">
-
       </div>
     </div>
+    
+    <div class="total">
+      <h2>Total =</h2>
+    </div>
+
     <form action="/sessions" method="post">
-        <input type="hidden" name="_method" value="delete">
-        <button class="logout" type="submit" value='Log-Out'>Log-Out</button>
+      <input type="hidden" name="_method" value="delete">
+      <button class="logout" type="submit" value='Log-Out'>Log-Out</button>
     </form>
 </section>
 
-<!-- template for foods -->
+
 <script type='text/template' id='food-template'>
     <button class="foods"><p><strong><%%= name %></strong><br><b>Allergies:</b><%%= allergiens %> <br>$<%%= price %></p><button class="delete">X</button></button>
 </script>
-<!-- template for parties -->
+
 <script type='text/template' id='party-template'>
     <button class="party"><p><strong><%%= table_num %></strong><br><b>guest:</b><%%= guest %><br> $<%%= payment %></p></button>
 </script>
 
-<!-- dependencies for application -->
+
 <script charset="utf-8" src='/javascripts/lib/jquery.js'></script>
 <script charset="utf-8" src='/javascripts/lib/underscore.js'></script>
 <script charset="utf-8" src='/javascripts/lib/backbone.js'></script>
