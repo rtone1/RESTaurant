@@ -1,12 +1,12 @@
 ###RESTaurant POS System:
-This a application is a many-to-many relational data system, that allows restaurant owners to list new food items and keep track of parties and their food orders. The application allows for multiple users (servers) to log in and start taking food orders and calcutalets the total of items per order.  
+This application is a many-to-many relational data system that allows restaurant personnel to list new food items and keep track of parties and their food orders. The application can have multiple users (servers) log in, start taking food orders and completes each transaction with a calculation of the total of items per order.  
 
-Ruby and Sinatra where use to built the back end of the POS system and with the help of Active Record the application can easily communicate with the SQL database. In the front end the user experiences the POS sytem with the help of Javascipt (which include the use of Jquery and Backbone), HTML and CSS.
+Ruby and Sinatra were used to build the back end of the POS system, and with the help of Active Record, the application can easily communicate with the SQL database. In the front end, the user experiences the POS sytem with the help of Javascipt (which includes the use of Jquery and Backbone), HTML and CSS.
 
 ![Screen Shot](/screenshot.png)
 
 #Challenge
-One of the biggest challenges I encounter was to make a click event that displays a parties food order. The code below a snippet that sets a function in parties Backbone view that gets any food item belonging to a specific party and appends it to a unorder list.
+One of the main challenges I encountered was making a click event that displays a parties' food order. The code below is a function for a Backbone view that gets any food item belonging to a specific party and appends it to an unordered list.
 
 ```javascript
   events: {
@@ -32,6 +32,6 @@ One of the biggest challenges I encounter was to make a click event that display
 ```
 
 #Upcoming Features
-Features that will be include in the next version are: A display of the total price amount and a printable receipt.
+Features that will be included in the next version are: A display that totals up the price for an individual order and a printable receipt.
 
 
